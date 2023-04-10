@@ -1,5 +1,6 @@
 ﻿using ChessDependencyInversion;
 using ChessDependencyInversion.Renderers;
+using DependencyInjectionWorkShop;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -10,19 +11,15 @@ namespace DependecyInversionRealExample
         static void Main(string[] args)
         {
 
-            ServiceCollection serviceCollection = new ServiceCollection();
-
-            serviceCollection.AddTransient<IRenderer, ConsoleRenderer>();
-
-            serviceCollection.AddTransient<ChessEngine, ChessEngine>();
-
-
-
-            IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-
+            IServiceProvider serviceProvider = ServiceConfigurator.ConfigureServices();
 
 
             ChessEngine chess = serviceProvider.GetService<ChessEngine>();
+
+
+            ScoreBoard scoreBoard = serviceProvider.GetService<ScoreBoard>();
+
+            scoreBoard.DrawScore()
 
             chess.Start();
         }
